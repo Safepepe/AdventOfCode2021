@@ -12,8 +12,8 @@ answer1 = inputIO >>= return.length.filter (>0).deltas
 {-============================================================================-}
 {-+                                Part Two                                  +-}
 {-============================================================================-}
-deltasSpaces :: Int -> [Int] -> [Int]
-deltasSpaces n ks = zipWith (-) (drop n ks) ks
+deltaSpaces :: Int -> [Int] -> [Int]
+deltaSpaces n ks = zipWith (-) (drop n ks) ks
 {-====================================================-}
 answer2 :: IO Int
-answer2 = inputIO >>= return.length.filter (>0).deltasSpaces 3 
+answer2 = inputIO >>= return.length.filter (>0).deltaSpaces 3 
