@@ -12,8 +12,8 @@ answer1 = inputIO >>= return.length.filter (>0).deltas
 {-============================================================================-}
 {-+                                Part Two                                  +-}
 {-============================================================================-}
-deltaFromGroupsOf :: Int -> [Int] -> [Int]
-deltaFromGroupsOf n ks = zipWith (-) (drop n ks) ks
+deltasFromGroupsOf :: Int -> [Int] -> [Int]
+deltasFromGroupsOf n ks = zipWith (-) (drop n ks) ks
 {-====================================================-}
 answer2 :: IO Int
-answer2 = inputIO >>= return.length.filter (>0).deltaFromGroupsOf 3
+answer2 = inputIO >>= return.length.filter (>0).deltasFromGroupsOf 3
