@@ -28,7 +28,7 @@ answer1 = do ds <- inputIO
 {-+                                Part Two                                  +-}
 {-============================================================================-}
 modeAt :: Int -> [[Int]] -> Int
-modeAt n xs = head.foldl1 (pickBigger).group.sort.map(!!n)$xs
+modeAt n = head.foldl1 (pickBigger).group.sort.map(!!n)
  where
    pickBigger :: [a] -> [a] -> [a]
    pickBigger zros ones = case compare (length zros) (length ones) of
@@ -45,7 +45,7 @@ oxygenRating xs = head$foldr (filterByMode) xs positions
                            in filter ((==mode).(!!pos)) rest
 
 antiModeAt :: Int -> [[Int]] -> Int
-antiModeAt n xs = head.foldl1 (pickSmaller).group.sort.map(!!n)$xs
+antiModeAt n = head.foldl1 (pickSmaller).group.sort.map(!!n)
  where
    pickSmaller :: [a] -> [a] -> [a]
    pickSmaller zros ones = case compare (length zros) (length ones) of
