@@ -6,7 +6,8 @@ import Data.List (sort, group)
 {-============================================================================-}
 gammaBase2 :: [[Int]] -> [Int]
 gammaBase2 ns = let sumVector = foldr1 (zipWith (+)) ns
-               in toDigit.(>(div (length ns) 2))<$>sumVector
+                    moreThanHalf x =  x > ((length ns)`div`2)
+               in toDigit.moreThanHalf<$>sumVector
   where
     toDigit b = if b then 1 else 0
 
