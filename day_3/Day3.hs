@@ -6,14 +6,15 @@ import Data.List (sort, group)
 {-============================================================================-}
 gammaBase2 :: [[Int]] -> [Int]
 gammaBase2 ns = let sumVector = foldr1 (zipWith (+)) ns
-               in toDigit.(>(div (length ns) 2))<$>sumVector
+                    moreThanHalf x =  x > ((length ns)`div`2)
+               in toDigit.moreThanHalf<$>sumVector
   where
     toDigit b = if b then 1 else 0
 
 toBase10 :: [Int] -> Int
-toBase10 digitL = sum$zipWith (*) digitL powers
+toBase10 digitL = sum$zipWith (*) digitL powersOfTwo
   where
-    powers = reverse$(2^)<$>[0..(length digitL -1)]
+    powersOfTwo = reverse$(2^)<$>[0..(length digitL -1)]
 
 gammaRate :: [[Int]] -> Int
 gammaRate = toBase10.gammaBase2
