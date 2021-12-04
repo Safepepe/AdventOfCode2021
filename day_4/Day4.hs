@@ -1,6 +1,6 @@
 module Day4 where
 import Data4 (inputIO)
-
+import Data.List (transpose)
 {-============================================================================-}
 {-+                                Part One                                  +-}
 {-============================================================================-}
@@ -9,10 +9,6 @@ type BingoTable = [[(Int,Bool)]]
 
 toBingoTable :: Table -> BingoTable
 toBingoTable = map.map$ (\x -> (x,False))
-
-transpose :: [[a]] -> [[a]]
-transpose [] = []
-transpose (x:xs) = foldr (zipWith (:)) (replicate (length x) []) (x:xs)
 
 markNumber :: [BingoTable] -> Int -> [BingoTable]
 markNumber btbs n = map (matchTable n) btbs
