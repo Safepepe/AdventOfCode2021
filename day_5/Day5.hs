@@ -40,7 +40,7 @@ answer1 :: IO Int
 answer1 = do lns <- inputIO
              let horiVertiLines = markedLines.verticalOrHorizontal$ lns
                  points = markPositions horiVertiLines
-                 twoPoints = filter ((>1)) points
+                 twoPoints = filter (>1) points
              return$ length twoPoints
 {-============================================================================-}
 {-+                                Part Two                                  +-}
