@@ -25,26 +25,24 @@ expandHoriVerti ((x1,y1),(x2,y2))
 markedHorVerLines :: [Line] -> [Position]
 markedHorVerLines = concatMap expandHoriVerti .verticalOrHorizontal
 
-markPositions :: [Position] -> [(Position,Int)]
-markPositions = map toTuple. groupPointsTogether
+markPositions :: [Position] -> [Int]
+markPositions = map length. groupPoints
   where
-    groupPointsTogether = concatMap (group.sortWith fst).groupBy sameYCoord.sortWith snd
-    toTuple :: [a] -> (a,Int)
-    toTuple xs = (head xs , length xs)
-    sameYCoord :: Position -> Position -> Bool
-    sameYCoord (x1,y1) (x2,y2) = y1==y2
+    groupPoints = concatMap (group.sortWith fst).groupBy sameY.sortWith snd
+    sameY :: Position -> Position -> Bool
+    sameY (x1,y1) (x2,y2) = y1==y2
 {-============================================================================-}
 answer1 :: IO Int
 answer1 = do lns <- inputIO
              let horiVertiLines = markedHorVerLines lns
                  points = markPositions horiVertiLines
-                 twoPoints = filter ((>1).snd) points
+                 twoPoints = filter ((>1)) points
              return$ length twoPoints
 {-============================================================================-}
 {-+                                Part Two                                  +-}
 {-============================================================================-}
 expandLine :: Line -> [Position]
-expandLine ((x1,y1),(x2,y2)) 
+expandLine ((x1,y1),(x2,y2))
    | x1 < x2 && y1 < y2   = (x1,y1): expandLine ((x1+1,y1+1),(x2,y2))
    | x1 < x2 && y1 > y2   = (x1,y1): expandLine ((x1+1,y1-1),(x2,y2))
    | x1 > x2 && y1 < y2   = (x1,y1): expandLine ((x1-1,y1+1),(x2,y2))
@@ -62,6 +60,5 @@ answer2 :: IO Int
 answer2 = do lns <- inputIO
              let allLines = markedLines lns
                  points = markPositions allLines
-                 twoPoints = filter ((>1).snd) points
-             print$ length allLines
+                 twoPoints = filter ((>1)) points
              return$ length twoPoints
