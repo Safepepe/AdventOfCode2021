@@ -1,5 +1,5 @@
 module Day5 where
-import Data5 (inputIO)
+import Data5 (inputIO, inputTest)
 import GHC.Exts (sortWith)
 import Data.List (groupBy, group)
 {-============================================================================-}
@@ -28,7 +28,7 @@ markedHorVerLines = concatMap expandHoriVerti .verticalOrHorizontal
 markPositions :: [Position] -> [(Position,Int)]
 markPositions = map toTuple. groupPointsTogether
   where
-    groupPointsTogether = concat.map group.map (sortWith fst).groupBy sameYCoord.sortWith snd
+    groupPointsTogether = concatMap (group.sortWith fst).groupBy sameYCoord.sortWith snd
     toTuple :: [a] -> (a,Int)
     toTuple xs = (head xs , length xs)
     sameYCoord :: Position -> Position -> Bool
@@ -44,7 +44,7 @@ answer1 = do lns <- inputIO
 {-+                                Part Two                                  +-}
 {-============================================================================-}
 expandLine :: Line -> [Position]
-expandLine ((x1,y1),(x2,y2))
+expandLine ((x1,y1),(x2,y2)) 
    | x1 < x2 && y1 < y2   = (x1,y1): expandLine ((x1+1,y1+1),(x2,y2))
    | x1 < x2 && y1 > y2   = (x1,y1): expandLine ((x1+1,y1-1),(x2,y2))
    | x1 > x2 && y1 < y2   = (x1,y1): expandLine ((x1-1,y1+1),(x2,y2))
@@ -52,16 +52,16 @@ expandLine ((x1,y1),(x2,y2))
    | y1 < y2 {-x1 == x2-} = (x1,y1): expandLine ((x1  ,y1+1),(x2,y2))
    | y1 > y2 {-x1 == x2-} = (x1,y1): expandLine ((x1  ,y1-1),(x2,y2))
    | x1 < x2 {-y1 == y2-} = (x1,y1): expandLine ((x1+1,y1  ),(x2,y2))
-   | x1 > x2 {-y1 == y2-} = (x1,y1): expandLine ((x1-1,y1-1),(x2,y2))
+   | x1 > x2 {-y1 == y2-} = (x1,y1): expandLine ((x1-1,y1  ),(x2,y2))
    | x1 == x2 && y1 == y2 = [(x1,y1)]
 
 markedLines :: [Line] -> [Position]
 markedLines = concatMap expandLine
-
 {-============================================================================-}
 answer2 :: IO Int
 answer2 = do lns <- inputIO
              let allLines = markedLines lns
                  points = markPositions allLines
                  twoPoints = filter ((>1).snd) points
+             print$ length allLines
              return$ length twoPoints
