@@ -14,33 +14,6 @@ verticalOrHorizontal = filter (\x -> isHorizontal x || isVertical x)
    isVertical ((x1,y1),(x2,y2)) = x1 == x2
    isHorizontal ((x1,y1),(x2,y2)) = y1 == y2
 
-expandHoriVerti :: Line -> [Position]
-expandHoriVerti ((x1,y1),(x2,y2))
-   | x1 < x2              = (x1,y1): expandHoriVerti ((x1+1,y1),(x2,y2))
-   | x1 > x2              = (x1,y1): expandHoriVerti ((x1-1,y1),(x2,y2))
-   | y1 < y2              = (x1,y1): expandHoriVerti ((x1,y1+1),(x2,y2))
-   | y1 > y2              = (x1,y1): expandHoriVerti ((x1,y1-1),(x2,y2))
-   | x1 == x2 && y1 == y2 = [(x1,y1)]
-
-markedHorVerLines :: [Line] -> [Position]
-markedHorVerLines = concatMap expandHoriVerti .verticalOrHorizontal
-
-markPositions :: [Position] -> [Int]
-markPositions = map length. groupPoints
-  where
-    groupPoints = concatMap (group.sortWith fst).groupBy sameY.sortWith snd
-    sameY :: Position -> Position -> Bool
-    sameY (x1,y1) (x2,y2) = y1==y2
-{-============================================================================-}
-answer1 :: IO Int
-answer1 = do lns <- inputIO
-             let horiVertiLines = markedHorVerLines lns
-                 points = markPositions horiVertiLines
-                 twoPoints = filter ((>1)) points
-             return$ length twoPoints
-{-============================================================================-}
-{-+                                Part Two                                  +-}
-{-============================================================================-}
 expandLine :: Line -> [Position]
 expandLine ((x1,y1),(x2,y2))
    | x1 < x2 && y1 < y2   = (x1,y1): expandLine ((x1+1,y1+1),(x2,y2))
@@ -55,6 +28,24 @@ expandLine ((x1,y1),(x2,y2))
 
 markedLines :: [Line] -> [Position]
 markedLines = concatMap expandLine
+
+markPositions :: [Position] -> [Int]
+markPositions = map length. groupPoints
+  where
+    groupPoints = concatMap (group.sortWith fst).groupBy sameY.sortWith snd
+    sameY :: Position -> Position -> Bool
+    sameY (x1,y1) (x2,y2) = y1==y2
+{-============================================================================-}
+answer1 :: IO Int
+answer1 = do lns <- inputIO
+             let horiVertiLines = markedLines.verticalOrHorizontal$ lns
+                 points = markPositions horiVertiLines
+                 twoPoints = filter ((>1)) points
+             return$ length twoPoints
+{-============================================================================-}
+{-+                                Part Two                                  +-}
+{-============================================================================-}
+
 {-============================================================================-}
 answer2 :: IO Int
 answer2 = do lns <- inputIO
