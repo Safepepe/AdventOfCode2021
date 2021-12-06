@@ -8,7 +8,7 @@ type DaysLeft = Int
 type Amount = Int
 type Fish = (DaysLeft, Amount)
 
-toTuples :: [DaysLeft] -> [Fish] --unsafe function!
+toTuples :: [DaysLeft] -> [Fish]
 toTuples = map (\xs -> (head xs, length xs)).group.sort
 
 accumulate ::  [Fish] -> [Fish]
