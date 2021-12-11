@@ -62,9 +62,6 @@ lowPositions nsMap =  map snd.filter fst.concat$zipWith (zip) (minBoolMap nsMap)
     coords = zipWith zip (replicate (ny+1) [0..nx]) (transpose$replicate (nx+1) [0..ny])
     nx = (length.head$nsMap) -1
     ny = (length$nsMap) -1
-
-example :: [[Int]]
-example =[[2,1,9,9,9,4,3,2,1,0],[3,9,8,7,8,9,4,9,2,1],[9,8,5,6,7,8,9,8,9,2],[8,7,6,7,8,9,6,7,8,9],[9,8,9,9,9,6,5,6,7,8]]
 {-============================================================================-}
 answer2 :: IO Int
 answer2 = do nsMap <- inputIO
