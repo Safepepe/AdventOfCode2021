@@ -56,7 +56,7 @@ basin nsMap (x,y) = foldr avoidDuplicates [(x,y)].concat$ unfoldr (adjecentFlow 
   where
     avoidDuplicates x xs = if x`elem`xs then xs else x:xs
 
-lowPositions :: [[Int]] -> [Position] --Broken
+lowPositions :: [[Int]] -> [Position] 
 lowPositions nsMap =  map snd.filter fst.concat$zipWith (zip) (minBoolMap nsMap) coords
   where
     coords = zipWith zip (replicate (ny+1) [0..nx]) (transpose$replicate (nx+1) [0..ny])
