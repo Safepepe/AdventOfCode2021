@@ -1,6 +1,6 @@
 module Day11 where
 import Data11 (input)
-import Data.List (transpose, unfoldr)
+import Data.List (transpose)
 import Control.Monad.State.Lazy
 
 {-============================================================================-}
